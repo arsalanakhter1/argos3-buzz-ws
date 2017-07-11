@@ -18,8 +18,8 @@ function step() {
 		log ("Robot", id, " Pitch: ", pose.orientation.pitch)
 		log ("Robot", id, " Yaw: ", pose.orientation.yaw)
 		point = {}
-		point.x = 0.0
-		point.y = 0.0
+		point.x = -1.5
+		point.y = 1.5
 		goToGlobal2DPoint(point)
 	}
 }
@@ -54,7 +54,7 @@ return orientationDoneFlag
 }
 
 function goToGlobal2DPoint(point){
-	log ("Reached Global2DPoint function")
+	# log ("Reached Global2DPoint function")
 	# Enter here if not within a certain thereshold of point to be reached.
 	if (point.x < pose.position.x - 0.01 or point.x > pose.position.x + 0.01 or point.y < pose.position.y - 0.01 or point.y > pose.position.y + 0.01){
 		# First, Orient itself towards the point
@@ -68,7 +68,7 @@ function goToGlobal2DPoint(point){
 		else orientToGlobal2DPoint(point)
 	}
 	else {
-		log ("Reached Destination Point")
+		log ("Reached Destination Point " , "(", point.x, ", ", point.y, ")" )
 		goto(0.0, 0.0) # Make the velocity 0 so that the robot does not move without any reason
 	}
 }
