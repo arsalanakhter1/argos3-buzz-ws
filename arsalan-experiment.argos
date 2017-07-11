@@ -26,7 +26,7 @@
         <range_and_bearing implementation="medium" medium="rab" show_rays="true" noise_std_dev="0" />
         <positioning implementation="default" />
       </sensors>
-      <params bytecode_file="arsalan-experiment.bo" debug_file="arsalan-experiment.bdb">
+      <params bytecode_file="testFunctions.bo" debug_file="testFunctions.bdb">
         <wheel_turning hard_turn_angle_threshold="90"
                        soft_turn_angle_threshold="70"
                        no_turn_angle_threshold="10"
