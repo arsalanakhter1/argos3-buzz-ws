@@ -1,7 +1,7 @@
 # We need this for 2D vectors
 # Make sure you pass the correct include path to "bzzc -I <path1:path2> ..."
-include "/home/arsalan/buzz/src/include/vec2.bzz"
 
+include "navigationHelperFunctions.bzz"
 
 # Executed at init time
 function init() {
@@ -25,50 +25,4 @@ function step() {
 }
 # Execute at exit
 function destroy() {
-}
-
-function orientToGlobal2DPoint(point) {	
-	orientationDoneFlag = 0
-# Compute the angle from current location to goto location
-	angleToGlobal2DPoint =  math.atan(point.y - pose.position.y, point.x - pose.position.x)
-	log (angleToGlobal2DPoint)
-# Orient the robot towards that point, by giving it a generic velocity vector of linear velocity 1
-# and angular velocity math.pi
-# The first if seems kind of unnecessary.. the threshold added here.. but it should be a corner case
-	if (pose.orientation.yaw < angleToGlobal2DPoint - 0.01 or pose.orientation.yaw > angleToGlobal2DPoint + 0.01){
-		if (pose.orientation.yaw < angleToGlobal2DPoint){
-			log("In < part")
-			set_wheels(-1.0,1.0)
-		}
-		else if (pose.orientation.yaw > angleToGlobal2DPoint){
-			log("In > part")
-			set_wheels(1.0,-1.0)
-		}
-		else log ("Orientation done")
-	}
-  else { 
-		log ("Already oriented")
-		orientationDoneFlag = 1
-	}
-return orientationDoneFlag
-}
-
-function goToGlobal2DPoint(point){
-	# log ("Reached Global2DPoint function")
-	# Enter here if not within a certain thereshold of point to be reached.
-	if (point.x < pose.position.x - 0.01 or point.x > pose.position.x + 0.01 or point.y < pose.position.y - 0.01 or point.y > pose.position.y + 0.01){
-		# First, Orient itself towards the point
-		if (orientToGlobal2DPoint(point) == 1) {	# If it has oriented itself
-		# Move towards the point of interest
-		# create a new polar vector.. Ask to go in straight direction
-			straightHeading = math.vec2.newp(10, 0)
-			goto(straightHeading.x, straightHeading.y)
-			log ("Going Straight Now")
-		}
-		else orientToGlobal2DPoint(point)
-	}
-	else {
-		log ("Reached Destination Point " , "(", point.x, ", ", point.y, ")" )
-		goto(0.0, 0.0) # Make the velocity 0 so that the robot does not move without any reason
-	}
 }
