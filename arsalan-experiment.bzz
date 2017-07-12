@@ -11,7 +11,7 @@ function init() {
 
 # Executed every time step
 function step() {
-	if (id == 0){
+	if (id == 1){
 		log ("Robot", id, " x: ",pose.position.x )
 		log ("Robot", id, " y: ",pose.position.y )
 		log ("Robot", id, " Roll: ", pose.orientation.roll)
