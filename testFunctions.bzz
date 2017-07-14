@@ -2,28 +2,35 @@
 # Make sure you pass the correct include path to "bzzc -I <path1:path2> ..."
 
 include "navigationHelperFunctions.bzz"
+include "batteryPowerFunctions.bzz"
 
-BATTERY = 100
-
+TIME = 0				# Add a sense of time to the simulation
 # Executed at init time
 function init() {
 	log("Robot: ", id, " initialized!")
+	initializeRobotRoles()
 }
  
 
 # Executed every time step
 function step() {
-	if (id == 1){
-		log ("Robot", id, " x: ",pose.position.x )
-		log ("Robot", id, " y: ",pose.position.y )
-		log ("Robot", id, " Roll: ", pose.orientation.roll)
-		log ("Robot", id, " Pitch: ", pose.orientation.pitch)
-		log ("Robot", id, " Yaw: ", pose.orientation.yaw)
-		point = {}
-		point.x = -1.5
-		point.y = 1.5
-		goToGlobal2DPoint(point)
+	if (BATTERY > 0){
+		runPowerCycle(0.1)
+		if (id == 1){
+			log ("Robot", id, " x: ",pose.position.x )
+			log ("Robot", id, " y: ",pose.position.y )
+			log ("Robot", id, " Yaw: ", pose.orientation.yaw)
+			point = {}
+			point.x = -1.5
+			point.y = 1.5
+			goToGlobal2DPoint(point)
+		}
 	}
+	else{
+		# For now, we just initialize the robot battery with 80 once it is fully discharged
+		BATTERY = 80 					 	#	set_wheels(0.0, 0.0) 
+		log ("Robot", id, " battery Charged again")
+	} 
 }
 # Execute at exit
 function destroy() {

@@ -1,0 +1,41 @@
+# This file defines all the battery or robot power related functions 
+# Here we have an assumption than we have three robots.
+# SHOULD BE: There should be a way of generically writing this file. 
+# Currently it feels ad-hoc 
+
+BATTERY = 100
+ROLE = "EXECUTER"				# The robots can have roles of either CHARGER or EXECUTER, 
+												# By default it is EXECUTER
+
+function 	initializeRobotRoles(){
+	if (id == 0) ROLE = "CHARGER"
+	else if (id == 1) ROLE = "EXECUTER"
+	else if (id == 2) ROLE = "EXECUTER"
+	else { 
+		ROLE = "EXECUTER"		
+		log ("No Role defined previously, assigning EXECUTER")
+		}
+}
+
+function dischargeRobot(dischargeRate){
+	debug(BATTERY)
+# Currently this function decreases the battery value linearly 	
+	if	(BATTERY > 0){
+		BATTERY = BATTERY - dischargeRate
+	}
+	else {
+		set_wheels(0.0, 0.0) 
+		log ("Robot", id, " battery discharged fully")
+	}
+}
+
+function runPowerCycle(dischargeRate){
+	# Decrease battery value of robot. If the Battery is 0 then stop it.
+	if (ROLE == "CHARGER"){
+			BATTERY = 100				# Charger robot's batteries do not discharge for now..¯\_(ツ)_/¯
+			debug("CHARGER ", BATTERY)
+	}
+	else {
+		dischargeRobot(dischargeRate)
+	}
+}
